@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import SelectorText from './SelectorText.js'
+import SelectorArrow from './SelectorArrow.js'
 import styled from 'styled-components';
 
 const Border = styled.div`
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between; 
   padding: 10px;
   position: relative;
   border: 1px solid lightgrey;
@@ -17,6 +20,7 @@ class LeftAlignSelector extends Component {
         return (
             <Border>
                 <SelectorText text={'Gjcflrf'} />
+                <SelectorArrow />
             </Border>
         );
     }
