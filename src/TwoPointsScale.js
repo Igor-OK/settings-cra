@@ -3,31 +3,39 @@ import styled from 'styled-components';
 
 class TwoPointsScale extends Component {
     render() {
-
-        const deltaLeftTick = this.props.emptyStart / (this.props.emptyStart + this.props.fullFilled) * this.props.diameter;
-        const deltaRightTick = this.props.fullFilled / (this.props.fullFilled + this.props.emptyEnd) * this.props.diameter;
-
-        // console.log(deltaLeftTick, deltaRightTick)
-
         return (
-            <Scale className="scale" onClick={this.props.click}>
+            <Scale
+                className="scale"
+                onClick={this.props.click}
+                onMouseMove = {this.props.mMove}
+                onMouseUp = {this.props.mUp}
+                onMouseLeave = {this.props.mUp}
+            >
                 <LeftTick
-                    style = {{left: (this.props.emptyStart - deltaLeftTick) + '%'}}
+                    className={'tick-left'}
+                    style = {{left: (this.props.emptyStart ) + 'px'}}
+                    onMouseDown = {this.props.mDown}
+                    onMouseUp = {this.props.mUp}
                 />
                 <RightTick
-                    style = {{left: (this.props.emptyStart + this.props.fullFilled - deltaRightTick)+'%'}}
+                    className={'tick-right'}
+                    style = {{left: (this.props.emptyStart + this.props.fullFilled + this.props.diameter)+'px'}}
+                    onMouseDown = {this.props.mDown}
+                    onMouseUp = {this.props.mUp}
                 />
+                <SideLine />
                 <ScaleLine>
                     <EmptyStart
-                        style = {{width: this.props.emptyStart+'%'}}
+                        style = {{width: this.props.emptyStart+'px'}}
                     />
                     <Fullfilled
-                        style = {{width: this.props.fullFilled+'%'}}
+                        style = {{width: this.props.fullFilled+'px'}}
                     />
                     <EmptyEnd
-                        style = {{width: this.props.emptyEnd+'%'}}
+                        style = {{width: this.props.emptyEnd+'px'}}
                     />
                 </ScaleLine>
+                <SideLine />
             </Scale>
         );
     }
@@ -66,14 +74,16 @@ const RightTick = styled.div`
     z-index: 55;
 `;
 const ScaleLine = styled.div`
-    position: absolute;
-    display: block; 
+    display: inline-block; 
     height: 5px;
-    width: 100%;
+    width: 220px;
     z-index: 50;
-    box-sizing: border-box;
-    border-right: 1px solid white;
-    border-left: 1px solid white;
+`;
+const SideLine = styled.div`
+    display: inline-block;
+    background-color: #E0E0E0;
+    width: 20px;
+    height: 5px;
 `;
 const EmptyStart = styled.div`
     display: inline-block;

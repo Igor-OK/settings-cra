@@ -10,10 +10,10 @@ class TwoPointsRanger extends Component {
                 <RangerHead text = {'Длительность пересадки'} />
                 <RangerScale
                     type = {'period'}
-                    from = {40}
-                    to = {1600}
-                    tickL = {80}
-                    tickR = {1000}
+                    from = {100}
+                    to = {1000}
+                    tickL = {200}
+                    tickR = {900}
                 />
             </Body>
         );

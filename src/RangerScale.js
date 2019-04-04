@@ -11,11 +11,16 @@ class RangerScale extends Component {
             tickLeft: 10,
             tickRight: 90,
             type: '',
-            startDistance: 0,
-            currentDistance: 0,
-            diameter: 22*100/260    // tickRadius/length (in %)  HARDCODE!!!!
+            startDistance: 1,
+            diameter: 20,    // HARDCODE!!!!
+            scaleLength: 220,  // HARDCODE!!!!
+            target: null
         };
+        this.clickToUnit = this.clickToUnit.bind(this);
         this.scaleClick = this.scaleClick.bind(this);
+        this.slide = this.slide.bind(this);
+        this.slideStart = this.slideStart.bind(this);
+        this.slideEnd = this.slideEnd.bind(this);
     }
     componentDidMount() {
         this.setState({
@@ -25,41 +30,91 @@ class RangerScale extends Component {
             tickRight: this.props.tickR,
             type: this.props.type,
             startDistance: this.props.to - this.props.from,
-            currentDistance: this.props.to - this.props.from
         });
     }
 
-    scaleClick(e) {
-        e.stopPropagation();
-        if (e.target.classList.contains('scale')) console.log(' !!!!!! ');
-        console.log(e.target);
-        // console.log(e);
-        let bbox = e.target.getBoundingClientRect();
-        let clickXinside = e.clientX - bbox.left;
-        // console.log('x от края докмента',e.clientX);
-        // console.log('х от края элемента',clickXinside);
+    clickToUnit(e){
+        console.log(e.currentTarget);
+        const medianaPx = ((this.state.tickRight - this.state.tickLeft)/2 + this.state.tickLeft - this.state.from) / this.state.startDistance * this.state.scaleLength;
+        const bbox = e.currentTarget.getBoundingClientRect();
+        let clickPx = e.clientX - bbox.left - this.state.diameter; //in px related to origin scale considerind half of diameter
+        if (clickPx < -10) {clickPx = 0}
+        else if (clickPx > this.state.scaleLength + 10) {clickPx = this.state.scaleLength}
+        else {
+            if (clickPx > medianaPx){
+                clickPx -= this.state.diameter/2
+            }
+            else{
+                clickPx += this.state.diameter/2
+            }
+        }
+        // click X transformed to input units
+        const clickUnits  = Math.round(clickPx * this.state.startDistance / this.state.scaleLength + this.state.from);
+        return [clickPx, clickUnits, medianaPx]
+    }
 
-        const mediana = ((this.state.tickRight - this.state.tickLeft)/2 + this.state.tickLeft - this.state.from) / this.state.startDistance *100;
-        if(clickXinside*100/260 > mediana){
-            // console.log('RIGHT');
+    scaleClick(e) {
+        const coord = this.clickToUnit(e);
+        const clickPx = coord[0];
+        const clickUnits = coord[1];
+        const medianaPx = coord[2];
+        // console.log(clickUnits, clickPx, medianaPx);
+
+        if(clickPx > medianaPx){
             this.setState({
-                tickRight: clickXinside * this.state.startDistance / 260
+                tickRight: clickUnits
             })
         }
         else {
-            // console.log('LEFT');
             this.setState({
-                tickLeft: clickXinside * this.state.startDistance / 260
+                tickLeft: clickUnits
             })
         }
     }
 
-    render() {
+    slideStart(e) {
+        // console.log(e.currentTarget);
+        if (e.currentTarget.classList.contains('tick-left')){
+            this.setState({
+                target: 'left'
+            })
+        }
+        else if (e.currentTarget.classList.contains('tick-right')){
+            this.setState({
+                target: 'right'
+            })
+        }
+    }
+    slide(e) {
+        if(this.state.target){
+            const coord = this.clickToUnit(e);
+            const clickUnits = coord[1];
 
-        const start = this.state.tickLeft / (this.state.to - this.state.from) * 100;
-        const filled = (this.state.tickRight - this.state.tickLeft) / (this.state.to - this.state.from) * 100;
-        const end = 100 - start - filled;
-        // console.log(start, filled);
+            if(this.state.target === 'left'){
+                this.setState({
+                    tickLeft: clickUnits
+                })
+            }
+            if(this.state.target === 'right'){
+                this.setState({
+                    tickRight: clickUnits
+                })
+            }
+        }
+    }
+    slideEnd(){
+        this.setState({
+            target: null
+        })
+    }
+
+    render() {
+        const unitsToPixels = this.state.scaleLength / this.state.startDistance;
+
+        const start = Math.round((this.state.tickLeft - this.state.from) * unitsToPixels) ;
+        const filled = Math.round((this.state.tickRight - this.state.tickLeft) * unitsToPixels);
+        const end = this.state.scaleLength - start - filled;
+        // console.log(start, filled, end);
 
         return (
             <ScaleBlock>
@@ -67,6 +122,9 @@ class RangerScale extends Component {
                 <RightText>до {this.state.tickRight} мин</RightText>
                 <TwoPointsScale
                     click={this.scaleClick}
+                    mDown={this.slideStart}
+                    mMove={this.slide}
+                    mUp={this.slideEnd}
                     emptyStart={start}
                     fullFilled={filled}
                     emptyEnd={end}
@@ -82,7 +140,6 @@ export default RangerScale;
 const ScaleBlock = styled.div`
     min-height: 50px;
 `;
-
 const LeftText = styled.div`
     display: inline-block;
     width: 50%;  
