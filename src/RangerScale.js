@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import TwoPointsScale from './TwoPointsScale';
+import HourMinOutput from './HourMinOutput';
 
 class RangerScale extends Component {
     constructor(props){
@@ -10,8 +11,8 @@ class RangerScale extends Component {
             to: 100,
             tickLeft: 10,
             tickRight: 90,
-            type: '',
             startDistance: 1,
+            minDistance: 30,
             diameter: 20,    // HARDCODE!!!!
             scaleLength: 220,  // HARDCODE!!!!
             target: null
@@ -28,13 +29,12 @@ class RangerScale extends Component {
             to: this.props.to,
             tickLeft: this.props.tickL,
             tickRight: this.props.tickR,
-            type: this.props.type,
             startDistance: this.props.to - this.props.from,
+            minDistance: this.props.minDis
         });
     }
 
     clickToUnit(e){
-        console.log(e.currentTarget);
         const medianaPx = ((this.state.tickRight - this.state.tickLeft)/2 + this.state.tickLeft - this.state.from) / this.state.startDistance * this.state.scaleLength;
         const bbox = e.currentTarget.getBoundingClientRect();
         let clickPx = e.clientX - bbox.left - this.state.diameter; //in px related to origin scale considerind half of diameter
@@ -58,16 +58,17 @@ class RangerScale extends Component {
         const clickPx = coord[0];
         const clickUnits = coord[1];
         const medianaPx = coord[2];
-        // console.log(clickUnits, clickPx, medianaPx);
 
+        //if distance between ticks is less than diameter of ticks, and user want to do it even less
+        if( (this.state.tickRight - this.state.tickLeft)< this.state.minDistance && clickUnits > this.state.tickLeft && clickUnits > this.state.tickRight) console.log('hi');
         if(clickPx > medianaPx){
             this.setState({
-                tickRight: clickUnits
+                tickRight:  Math.ceil(clickUnits/5)*5
             })
         }
         else {
             this.setState({
-                tickLeft: clickUnits
+                tickLeft: Math.ceil(clickUnits/5)*5
             })
         }
     }
@@ -85,23 +86,27 @@ class RangerScale extends Component {
             })
         }
     }
+
     slide(e) {
         if(this.state.target){
             const coord = this.clickToUnit(e);
             const clickUnits = coord[1];
 
+            if( (this.state.tickRight - this.state.tickLeft) < this.state.minDistance) this.slideEnd(); //check for min distance
+
             if(this.state.target === 'left'){
                 this.setState({
-                    tickLeft: clickUnits
+                    tickLeft: Math.ceil(clickUnits/5)*5
                 })
             }
             if(this.state.target === 'right'){
                 this.setState({
-                    tickRight: clickUnits
+                    tickRight: Math.ceil(clickUnits/5)*5
                 })
             }
         }
     }
+
     slideEnd(){
         this.setState({
             target: null
@@ -110,16 +115,14 @@ class RangerScale extends Component {
 
     render() {
         const unitsToPixels = this.state.scaleLength / this.state.startDistance;
-
-        const start = Math.round((this.state.tickLeft - this.state.from) * unitsToPixels) ;
-        const filled = Math.round((this.state.tickRight - this.state.tickLeft) * unitsToPixels);
-        const end = this.state.scaleLength - start - filled;
-        // console.log(start, filled, end);
+        const start = Math.round((this.state.tickLeft - this.state.from) * unitsToPixels);
+        const end = Math.round((this.state.to - this.state.tickRight) * unitsToPixels);
+        const filled = this.state.scaleLength - start - end;
 
         return (
             <ScaleBlock>
-                <LeftText>от {this.state.tickLeft} мин</LeftText>
-                <RightText>до {this.state.tickRight} мин</RightText>
+                <LeftText>от <HourMinOutput min={this.state.tickLeft} /></LeftText>
+                <RightText>до <HourMinOutput min={this.state.tickRight} /></RightText>
                 <TwoPointsScale
                     click={this.scaleClick}
                     mDown={this.slideStart}

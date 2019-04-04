@@ -52,7 +52,6 @@ const Scale = styled.div`
 const LeftTick = styled.div`
     display: inline-block;
     position: absolute;
- opacity: 0.5;
     width: 20px;  
     height: 20px;
     top: 1px;
@@ -64,7 +63,6 @@ const LeftTick = styled.div`
 const RightTick = styled.div`
     display: inline-block;
     position: absolute;
- opacity: 0.5;
     width: 20px;  
     height: 20px;
     top: 1px;
