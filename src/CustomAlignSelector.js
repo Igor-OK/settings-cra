@@ -22,23 +22,23 @@ class CustomAlignSelector extends Component {
     render() {
         if(this.props.headAlign === 'left'){
             return (
-                <BigBorder>
-                    <BorderLeft onClick = {this.activation}>
+                <BigBorderLeft>
+                    <Border onClick = {this.activation}>
                         <SelectorText text={this.props.header} />
                         <SelectorArrow active = {this.state.active} />
-                    </BorderLeft>
+                    </Border>
                     {!this.state.active? null : <SelectorBody align={this.props.bodyAlign}> {this.props.children} </SelectorBody>}
-                </BigBorder>
+                </BigBorderLeft>
             );
         } else if(this.props.headAlign === 'right'){
             return (
-                <BigBorder>
-                    <BorderRight onClick = {this.activation}>
+                <BigBorderRight>
+                    <Border onClick = {this.activation}>
                         <SelectorText text={this.props.header} />
                         <SelectorArrow active = {this.state.active} />
-                    </BorderRight>
+                    </Border>
                     {!this.state.active? null : <SelectorBody align={this.props.bodyAlign}> {this.props.children} </SelectorBody>}
-                </BigBorder>
+                </BigBorderRight>
             );
         }
 
@@ -47,28 +47,21 @@ class CustomAlignSelector extends Component {
 
 export default CustomAlignSelector;
 
-const BigBorder = styled.div`
+const BigBorderLeft = styled.div`
   width: 280px;
   display: inline-flex;
   flex-direction: column;
+  align-items: flex-start;
   margin-bottom: 20px;
 `;
-//todo floats in this compnent applied to head align
-
-const BorderLeft = styled.div`
+const BigBorderRight = styled.div`
+  width: 280px;
   display: inline-flex;
-  align-items: center;
-  justify-content: space-between; 
-  padding: 10px;
-  position: relative;
-  border: 1px solid lightgrey;
-  background-color: white;
-  height: 15px;
-  max-width: 140px;
-  cursor: pointer;
-  float: left;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: 20px;
 `;
-const BorderRight = styled.div`
+const Border = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: space-between; 
@@ -77,7 +70,6 @@ const BorderRight = styled.div`
   border: 1px solid lightgrey;
   background-color: white;
   height: 15px;
-  max-width: 140px;
+  width: 140px;
   cursor: pointer;
-  float: right;
 `;
