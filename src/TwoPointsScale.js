@@ -58,6 +58,7 @@ const LeftTick = styled.div`
     border: 1px solid #3CC2CD;
     background-color: #ffffff;
     border-radius: 50%;
+    box-shadow: 0px 2px 2px -1px rgba(0,0,0,0.35);
     z-index: 60;
 `;
 const RightTick = styled.div`
@@ -69,6 +70,7 @@ const RightTick = styled.div`
     border: 1px solid #3CC2CD;
     background-color: #ffffff;
     border-radius: 50%;
+    box-shadow: 0px 2px 2px -1px rgba(0,0,0,0.35);
     z-index: 55;
 `;
 const ScaleLine = styled.div`

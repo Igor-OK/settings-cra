@@ -19,4 +19,5 @@ const HeadText = styled.p`
     font-size: 0.9rem;
     margin-top: 5px;
     margin-bottom: 5px;
+    cursor: default;
 `

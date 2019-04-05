@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import TwoPointsRanger from './TwoPointsRanger.js';
+import SimpleCheckboxGroup from './SimpleCheckboxGroup.js';
 import styled from 'styled-components';
 
 class SelectorBody extends Component {
     render() {
         return (
             <Body>
+                <SimpleCheckboxGroup />
                 <TwoPointsRanger />
             </Body>
         );

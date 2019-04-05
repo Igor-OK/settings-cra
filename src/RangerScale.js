@@ -59,7 +59,7 @@ class RangerScale extends Component {
         const clickUnits = coord[1];
         const medianaPx = coord[2];
 
-        //if distance between ticks is less than diameter of ticks, and user want to do it even less
+//TODO if distance between ticks is less than diameter of ticks, and user want to do it even less
         if( (this.state.tickRight - this.state.tickLeft)< this.state.minDistance && clickUnits > this.state.tickLeft && clickUnits > this.state.tickRight) console.log('hi');
         if(clickPx > medianaPx){
             this.setState({
@@ -92,7 +92,8 @@ class RangerScale extends Component {
             const coord = this.clickToUnit(e);
             const clickUnits = coord[1];
 
-            if( (this.state.tickRight - this.state.tickLeft) < this.state.minDistance) this.slideEnd(); //check for min distance
+//TODO check for min distance
+            if( (this.state.tickRight - this.state.tickLeft) < this.state.minDistance) this.slideEnd();
 
             if(this.state.target === 'left'){
                 this.setState({
@@ -148,10 +149,12 @@ const LeftText = styled.div`
     width: 50%;  
     text-align: left;  
     font-size: 0.9rem;
+    cursor: default;
 `;
 const RightText = styled.div`
     display: inline-block;
     width: 50%;  
     text-align: right; 
     font-size: 0.9rem; 
+    cursor: default;
 `;

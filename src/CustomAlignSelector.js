@@ -12,6 +12,7 @@ class CustomAlignSelector extends Component {
         };
         this.activation = this.activation.bind(this);
     }
+//TODO align left-side/right side depending on props
 
     activation(e){
         this.setState({
