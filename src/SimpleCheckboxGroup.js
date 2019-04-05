@@ -6,29 +6,19 @@ import SimpleCheckbox from './SimpleCheckbox'
 class SimpleCheckboxGroup extends Component {
     constructor(props){
         super(props);
-//todo state initialization from props
         this.state = {
             selectAll: false,
-            properties: [
-                {
-                    label: 'Без пересадок',
-                    checked: false
-                },
-                {
-                    label: '1 пересадка',
-                    checked: false
-                },
-                {
-                    label: 'Без ночных пересадок',
-                    checked: false
-                },
-                {
-                    label: 'Без смены аэропорта',
-                    checked: false
-                },
-            ]
+            properties: []
         };
         this.selectAll = this.selectAll.bind(this);
+        this.select = this.select.bind(this);
+    }
+
+    componentDidMount() {
+        this.setState({
+            selectAll: this.props.checkboxOptions.selectAll,
+            properties: this.props.checkboxOptions.properties
+        })
     }
 
     selectAll(){
@@ -42,11 +32,48 @@ class SimpleCheckboxGroup extends Component {
             multiCheck[i] = {};
             Object.assign(multiCheck[i], this.state.properties[i], prop);
         }
-
         this.setState({
             selectAll: checked,
             properties: multiCheck
         })
+    }
+
+    select(e){
+        const number = parseInt(e.currentTarget.getAttribute('data-number'));
+        const currentActivity = this.state.properties[number].checked;
+        const newActivity = !currentActivity;
+        let multiCheck =[];
+        let full = true;
+
+        for (let i=0; i < this.state.properties.length; i++){
+            const prop = {checked: newActivity};
+            multiCheck[i] = {};
+            if (i === number){
+                Object.assign(multiCheck[i], this.state.properties[i], prop);
+                full = multiCheck[i].checked ? full : false
+            } else {
+                Object.assign(multiCheck[i], this.state.properties[i]);
+                full = multiCheck[i].checked ? full : false
+            }
+        }
+
+        if(newActivity){
+            if(full) {
+                this.setState({
+                    selectAll: true,
+                    properties: multiCheck
+                })
+            } else {
+                this.setState({
+                    properties: multiCheck
+                })
+            }
+        } else {
+            this.setState({
+                selectAll: false,
+                properties: multiCheck
+            })
+        }
     }
 
     render() {
@@ -61,11 +88,12 @@ class SimpleCheckboxGroup extends Component {
                             <SimpleCheckbox
                                 checked = {property.checked}
                                 label = {property.label}
+                                select = {this.select}
                                 key={index}
+                                dataNumber={index}
                             />
                         )
                 })}
-
             </Group>
         );
     }

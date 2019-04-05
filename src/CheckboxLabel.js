@@ -17,4 +17,10 @@ const Text = styled.span`
     font-size: 0.9rem;
     color: #484848;
     cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none;
 `

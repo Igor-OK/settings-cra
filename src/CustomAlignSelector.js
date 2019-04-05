@@ -12,24 +12,36 @@ class CustomAlignSelector extends Component {
         };
         this.activation = this.activation.bind(this);
     }
-//TODO align left-side/right side depending on props
 
-    activation(e){
+    activation(){
         this.setState({
             active : !this.state.active
         })
     }
 
     render() {
-        return (
-            <BigBorder>
-                <Border onClick = {this.activation}>
-                    <SelectorText text={'Пересадки'} />
-                    <SelectorArrow active = {this.state.active} />
-                </Border>
-                {!this.state.active? null : <SelectorBody />}
-            </BigBorder>
-        );
+        if(this.props.headAlign === 'left'){
+            return (
+                <BigBorder>
+                    <BorderLeft onClick = {this.activation}>
+                        <SelectorText text={this.props.header} />
+                        <SelectorArrow active = {this.state.active} />
+                    </BorderLeft>
+                    {!this.state.active? null : <SelectorBody align={this.props.bodyAlign}> {this.props.children} </SelectorBody>}
+                </BigBorder>
+            );
+        } else if(this.props.headAlign === 'right'){
+            return (
+                <BigBorder>
+                    <BorderRight onClick = {this.activation}>
+                        <SelectorText text={this.props.header} />
+                        <SelectorArrow active = {this.state.active} />
+                    </BorderRight>
+                    {!this.state.active? null : <SelectorBody align={this.props.bodyAlign}> {this.props.children} </SelectorBody>}
+                </BigBorder>
+            );
+        }
+
     }
 }
 
@@ -39,9 +51,11 @@ const BigBorder = styled.div`
   width: 280px;
   display: inline-flex;
   flex-direction: column;
-`
+  margin-bottom: 20px;
+`;
+//todo floats in this compnent applied to head align
 
-const Border = styled.div`
+const BorderLeft = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: space-between; 
@@ -52,4 +66,18 @@ const Border = styled.div`
   height: 15px;
   max-width: 140px;
   cursor: pointer;
+  float: left;
+`;
+const BorderRight = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between; 
+  padding: 10px;
+  position: relative;
+  border: 1px solid lightgrey;
+  background-color: white;
+  height: 15px;
+  max-width: 140px;
+  cursor: pointer;
+  float: right;
 `;

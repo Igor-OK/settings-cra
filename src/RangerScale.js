@@ -25,12 +25,12 @@ class RangerScale extends Component {
     }
     componentDidMount() {
         this.setState({
-            from: this.props.from,
-            to: this.props.to,
-            tickLeft: this.props.tickL,
-            tickRight: this.props.tickR,
-            startDistance: this.props.to - this.props.from,
-            minDistance: this.props.minDis
+            from: this.props.input.from,
+            to: this.props.input.to,
+            tickLeft: this.props.input.tickL,
+            tickRight: this.props.input.tickR,
+            startDistance: this.props.input.to - this.props.input.from,
+            minDistance: this.props.input.minDis
         });
     }
 
@@ -150,6 +150,12 @@ const LeftText = styled.div`
     text-align: left;  
     font-size: 0.9rem;
     cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none;
 `;
 const RightText = styled.div`
     display: inline-block;
@@ -157,4 +163,10 @@ const RightText = styled.div`
     text-align: right; 
     font-size: 0.9rem; 
     cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none;
 `;

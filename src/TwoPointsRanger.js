@@ -9,11 +9,7 @@ class TwoPointsRanger extends Component {
             <Body>
                 <RangerHead text = {'Длительность пересадки'} />
                 <RangerScale
-                    from = {100}
-                    to = {1000}
-                    tickL = {200}
-                    tickR = {900}
-                    minDis= {300}
+                    input = {this.props.rangeInput}
                 />
             </Body>
         );

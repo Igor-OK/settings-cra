@@ -27,6 +27,7 @@ const Block = styled.div`
     padding-right: 10px;
     height: 45px;
     background-color: white;
+    z-index: 10;
         &:hover {
             background-color: #F9FAFB;
         }

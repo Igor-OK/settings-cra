@@ -20,4 +20,10 @@ const HeadText = styled.p`
     margin-top: 5px;
     margin-bottom: 5px;
     cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none;
 `

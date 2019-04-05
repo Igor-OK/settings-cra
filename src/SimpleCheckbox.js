@@ -6,7 +6,7 @@ import CheckboxLabel from './CheckboxLabel'
 class SimpleCheckbox  extends Component {
     render() {
         return (
-            <Block>
+            <Block onClick={this.props.select} data-number={this.props.dataNumber}>
                 {/*//accept checked: true/false, onclick,*/}
                 <CheckableSquare checked={this.props.checked}/>
                 <CheckboxLabel text={this.props.label}/>

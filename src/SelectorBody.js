@@ -1,16 +1,34 @@
 import React, { Component } from 'react';
-import TwoPointsRanger from './TwoPointsRanger.js';
-import SimpleCheckboxGroup from './SimpleCheckboxGroup.js';
 import styled from 'styled-components';
 
 class SelectorBody extends Component {
+
     render() {
-        return (
-            <Body>
-                <SimpleCheckboxGroup />
-                <TwoPointsRanger />
-            </Body>
-        );
+
+        if(this.props.align === 'left'){
+            return(
+                <Body>
+                    <LeftArrow />
+                    {this.props.children}
+                </Body>
+            )
+        } else if (this.props.align === 'right'){
+            return (
+                <Body>
+                    <RightArrow />
+                    {this.props.children}
+                </Body>
+            );
+        }  else {
+            return (
+                <Body>
+                    <CenterArrow />
+                    {this.props.children}
+                </Body>
+            );
+        }
+
+
     }
 }
 
@@ -22,20 +40,46 @@ const Body = styled.div`
     margin-top: 10px;
     min-height: 100px;
     width: 280px;
+    overflow: hidden;
     background-color: #ffffff;
     border: 1px solid lightgrey;
     border-radius: 5px;
     box-shadow: 0px 3px 20px -10px rgba(128,128,128,0.75);
-     &:before {
-        content: " ";
-        display: inline-block;
-        background-color: white;
-        border-width: 1px;
-        border-style: solid none none solid;
-        border-color: lightgrey;
-        width: 7px;
-        height: 7px;
-        transform: translate(-111px, -12px) rotate(45deg);
       }
-  
+`;
+const LeftArrow = styled.div`
+    position: absolute;
+    display: inline-block; 
+    background-color: white;
+    border-width: 1px;
+    border-style: solid none none solid;
+    border-color: lightgrey;
+    width: 7px;
+    height: 7px;
+    z-index: 1;
+    transform: translate(-111px, -5px) rotate(45deg);
+`;
+const CenterArrow = styled.div`
+    position: absolute;
+    display: inline-block; 
+    background-color: white;
+    border-width: 1px;
+    border-style: solid none none solid;
+    border-color: lightgrey;
+    width: 7px;
+    height: 7px;
+    z-index: 1;
+    transform: translate(-10px, -5px) rotate(45deg);
+`;
+const RightArrow = styled.div`
+    position: absolute;
+    display: inline-block; 
+    background-color: white;
+    border-width: 1px;
+    border-style: solid none none solid;
+    border-color: lightgrey;
+    width: 7px;
+    height: 7px;
+    z-index: 1;
+    transform: translate(100px, -5px) rotate(45deg);
 `;
