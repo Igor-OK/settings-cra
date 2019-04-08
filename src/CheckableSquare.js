@@ -14,7 +14,7 @@ class CheckableSquare  extends Component {
 export default CheckableSquare ;
 
 const Square = styled.div`
-    display: block;
+    display: inline-block;
     width: 15px;
     height: 15px;
     border: 1px solid #3CC2CD;
@@ -22,7 +22,7 @@ const Square = styled.div`
     margin-right: 10px;
 `;
 const CheckedSquare = styled.div`
-    display: block;
+    display: inline-block;
     width: 15px;
     height: 15px;
     border: 1px solid #3CC2CD;

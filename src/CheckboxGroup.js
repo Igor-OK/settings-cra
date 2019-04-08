@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import SimpleHeadCheckbox from './SimpleHeadCheckbox'
-import SimpleCheckbox from './SimpleCheckbox'
+import SimpleHeadCheckbox from './SimpleHeadCheckbox';
+import SimpleCheckbox from './SimpleCheckbox';
+import PromoCheckbox from "./PromoCheckbox";
 
-class SimpleCheckboxGroup extends Component {
+class CheckboxGroup extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -11,27 +12,42 @@ class SimpleCheckboxGroup extends Component {
             properties: []
         };
         this.selectAll = this.selectAll.bind(this);
+        this.selectAllRange = this.selectAllRange.bind(this);
         this.select = this.select.bind(this);
     }
 
     componentDidMount() {
-        this.setState({
-            selectAll: this.props.checkboxOptions.selectAll,
-            properties: this.props.checkboxOptions.properties
-        })
+        // works in case when selectAll = true and some of checkboxes = false, just for good looking + fool-defence
+        if(this.props.checkboxOptions.selectAll){
+            const multiCheck = this.selectAllRange(true, this.props.checkboxOptions.properties);
+            this.setState({
+                selectAll: this.props.checkboxOptions.selectAll,
+                properties: multiCheck
+            });
+        } else {
+            this.setState({
+                selectAll: this.props.checkboxOptions.selectAll,
+                properties: this.props.checkboxOptions.properties,
+            });
+        }
     }
 
-    selectAll(){
-        const checked = !this.state.selectAll;
+    selectAllRange(checked, arr){
         let multiCheck =[];
         let flag=null;
         if (checked) flag = true
         else flag = false;
-        for(let i=0; i < this.state.properties.length; i++){
+        for(let i=0; i < arr.length; i++){
             const prop = {checked: flag};
             multiCheck[i] = {};
-            Object.assign(multiCheck[i], this.state.properties[i], prop);
+            Object.assign(multiCheck[i], arr[i], prop);
         }
+        return multiCheck;
+    }
+
+    selectAll(){
+        const checked = !this.state.selectAll;
+        const multiCheck = this.selectAllRange(checked, this.state.properties);
         this.setState({
             selectAll: checked,
             properties: multiCheck
@@ -84,7 +100,8 @@ class SimpleCheckboxGroup extends Component {
                     selectAll={this.selectAll}
                 />
                 {this.state.properties.map( (property, index)=>{
-                    return (
+                    if(property.type === 'simple'){
+                        return (
                             <SimpleCheckbox
                                 checked = {property.checked}
                                 label = {property.label}
@@ -93,13 +110,29 @@ class SimpleCheckboxGroup extends Component {
                                 dataNumber={index}
                             />
                         )
+                    } else if (property.type === 'promo'){
+                        return (
+                            <PromoCheckbox
+                                checked = {property.checked}
+                                label = {property.label}
+                                select = {this.select}
+                                key={index}
+                                dataNumber={index}
+                                promoText={property.promoText}
+                                price={property.price}
+                                currency={property.currency}
+                                promo={property.promo}
+                            />
+                        )
+                    }
+
                 })}
             </Group>
         );
     }
 }
 
-export default SimpleCheckboxGroup;
+export default CheckboxGroup;
 
 const Group = styled.div`
     display: flex;
