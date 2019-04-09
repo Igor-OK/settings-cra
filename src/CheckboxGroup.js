@@ -11,8 +11,6 @@ class CheckboxGroup extends Component {
             selectAll: false,
             properties: []
         };
-        this.selectAll = this.selectAll.bind(this);
-        this.selectAllRange = this.selectAllRange.bind(this);
         this.select = this.select.bind(this);
     }
 
@@ -32,7 +30,7 @@ class CheckboxGroup extends Component {
         }
     }
 
-    selectAllRange(checked, arr){
+    selectAllRange = (checked, arr) => {
         let multiCheck =[];
         let flag=null;
         if (checked) flag = true
@@ -45,7 +43,7 @@ class CheckboxGroup extends Component {
         return multiCheck;
     }
 
-    selectAll(){
+    selectAll = () => {
         const checked = !this.state.selectAll;
         const multiCheck = this.selectAllRange(checked, this.state.properties);
         this.setState({
@@ -54,7 +52,7 @@ class CheckboxGroup extends Component {
         })
     }
 
-    select(e){
+    select = (e) => {
         const number = parseInt(e.currentTarget.getAttribute('data-number'));
         const currentActivity = this.state.properties[number].checked;
         const newActivity = !currentActivity;

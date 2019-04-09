@@ -17,11 +17,6 @@ class RangerScale extends Component {
             scaleLength: 220,  // HARDCODE!!!!
             target: null
         };
-        this.clickToUnit = this.clickToUnit.bind(this);
-        this.scaleClick = this.scaleClick.bind(this);
-        this.slide = this.slide.bind(this);
-        this.slideStart = this.slideStart.bind(this);
-        this.slideEnd = this.slideEnd.bind(this);
     }
     componentDidMount() {
         this.setState({
@@ -34,7 +29,7 @@ class RangerScale extends Component {
         });
     }
 
-    clickToUnit(e){
+    clickToUnit = (e) => {
         const medianaPx = ((this.state.tickRight - this.state.tickLeft)/2 + this.state.tickLeft - this.state.from) / this.state.startDistance * this.state.scaleLength;
         const bbox = e.currentTarget.getBoundingClientRect();
         let clickPx = e.clientX - bbox.left - this.state.diameter; //in px related to origin scale considerind half of diameter
@@ -51,9 +46,9 @@ class RangerScale extends Component {
         // click X transformed to input units
         const clickUnits  = Math.round(clickPx * this.state.startDistance / this.state.scaleLength + this.state.from);
         return [clickPx, clickUnits, medianaPx]
-    }
+    };
 
-    scaleClick(e) {
+    scaleClick = (e) => {
         const coord = this.clickToUnit(e);
         const clickPx = coord[0];
         const clickUnits = coord[1];
@@ -71,10 +66,9 @@ class RangerScale extends Component {
                 tickLeft: Math.ceil(clickUnits/5)*5
             })
         }
-    }
+    };
 
-    slideStart(e) {
-        // console.log(e.currentTarget);
+    slideStart = (e) => {
         if (e.currentTarget.classList.contains('tick-left')){
             this.setState({
                 target: 'left'
@@ -85,9 +79,9 @@ class RangerScale extends Component {
                 target: 'right'
             })
         }
-    }
+    };
 
-    slide(e) {
+    slide = (e) => {
         if(this.state.target){
             const coord = this.clickToUnit(e);
             const clickUnits = coord[1];
@@ -106,13 +100,13 @@ class RangerScale extends Component {
                 })
             }
         }
-    }
+    };
 
-    slideEnd(){
+    slideEnd = () => {
         this.setState({
             target: null
         })
-    }
+    };
 
     render() {
         const unitsToPixels = this.state.scaleLength / this.state.startDistance;

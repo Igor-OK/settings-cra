@@ -5,26 +5,48 @@ class SelectorBody extends Component {
 
     render() {
 
-        if(this.props.align === 'left'){
+        if(this.props.align === 'left' && this.props.active){
             return(
                 <Body>
                     <LeftArrow />
                     {this.props.children}
                 </Body>
             )
-        } else if (this.props.align === 'right'){
+        } else if(this.props.align === 'left' && !this.props.active){
+            return(
+                <BodyHidden>
+                    <LeftArrow />
+                    {this.props.children}
+                </BodyHidden>
+            )
+        } else if (this.props.align === 'right' && this.props.active){
             return (
                 <Body>
                     <RightArrow />
                     {this.props.children}
                 </Body>
             );
-        }  else {
+        }
+        else if (this.props.align === 'right' && !this.props.active){
+            return (
+                <BodyHidden>
+                    <RightArrow />
+                    {this.props.children}
+                </BodyHidden>
+            );
+        }  else if (this.props.active) {
             return (
                 <Body>
                     <CenterArrow />
                     {this.props.children}
                 </Body>
+            );
+        } else {
+            return (
+                <BodyHidden>
+                    <CenterArrow />
+                    {this.props.children}
+                </BodyHidden>
             );
         }
 
@@ -47,6 +69,9 @@ const Body = styled.div`
     box-shadow: 0px 3px 20px -10px rgba(128,128,128,0.75);
       }
 `;
+const BodyHidden = styled.div`
+    display: none;
+`
 const LeftArrow = styled.div`
     position: absolute;
     display: inline-block; 

@@ -76,20 +76,105 @@ class App extends Component {
           },
 
         ]
+      },
+      dataForCheckboxGroup_3: {
+        selectAll: true,
+        properties: [
+          {
+            type: 'promo',
+            label: 'Жуковский',
+            checked: true,
+            promoText: '',
+            price: 21621,
+            currency: 'rub',
+            promo: false
+          },
+          {
+            type: 'promo',
+            label: 'Домодедово',
+            checked: true,
+            promoText: '',
+            price: 21621,
+            currency: 'rub',
+            promo: false
+          },
+          {
+            type: 'promo',
+            label: 'Внуково',
+            checked: true,
+            promoText: '',
+            price: 21621,
+            currency: 'rub',
+            promo: false
+          },
+          {
+            type: 'promo',
+            label: 'Шереметьево',
+            checked: true,
+            promoText: '',
+            price: 21621,
+            currency: 'rub',
+            promo: false
+          },
+
+        ]
+      },
+      dataForCheckboxGroup_4: {
+        selectAll: true,
+        properties: [
+          {
+            type: 'promo',
+            label: 'Хитроу',
+            checked: true,
+            promoText: '',
+            price: 21621,
+            currency: 'rub',
+            promo: false
+          },
+          {
+            type: 'promo',
+            label: 'Гатвик',
+            checked: true,
+            promoText: '',
+            price: 21621,
+            currency: 'rub',
+            promo: false
+          },
+          {
+            type: 'promo',
+            label: 'Лондон-Сити',
+            checked: true,
+            promoText: '',
+            price: 21621,
+            currency: 'rub',
+            promo: false
+          }
+        ]
       }
+
     }
   }
 
   render() {
     return (
       <div className="App">
-          <CustomAlignSelector bodyAlign = {'left'} headAlign={'left'} header = {'Пересадки'}>
+          <CustomAlignSelector bodyAlign = {'left'} headAlign={'left'} header = {'Пересадки'} type={'single'}>
               <CheckboxGroup checkboxOptions={this.state.dataForCheckboxGroup_1}/>
               <TwoPointsRanger rangeInput={this.state.dataForTwoPointsRanger} />
           </CustomAlignSelector>
 
-          <CustomAlignSelector bodyAlign={'center'} headAlign={'right'} header={'Альянсы'}>
+          <CustomAlignSelector bodyAlign={'center'} headAlign={'right'} header={'Альянсы'} type={'single'}>
               <CheckboxGroup checkboxOptions={this.state.dataForCheckboxGroup_2}/>
+          </CustomAlignSelector>
+
+          <CustomAlignSelector bodyAlign={'left'} headAlign={'left'} header={'Время отправления и прибытия'} type={'double'}>
+              <TwoPointsRanger rangeInput={this.state.dataForTwoPointsRanger} />
+              <TwoPointsRanger rangeInput={this.state.dataForTwoPointsRanger} />
+          </CustomAlignSelector>
+
+          <CustomAlignSelector bodyAlign={'right'} headAlign={'right'} header={'Аэропорты'} type={'double'}>
+            <CheckboxGroup checkboxOptions={this.state.dataForCheckboxGroup_3}/>
+            <CheckboxGroup checkboxOptions={this.state.dataForCheckboxGroup_4}/>
           </CustomAlignSelector>
 
       </div>
